@@ -44,7 +44,24 @@
 \frame{\tableofcontents}
 %\date{\hspace{1mm} \timemark}
 \section{背景}
-\begin{frame}{项目技术变迁}
+\subsection{关于电子词典}
+\begin{frame}{关于电子词典}
+\begin{description}
+	\item[wiktionary] 在线使用，用户贡献词条
+	\item[freedict]	词典数据在 Linux 发行版上可直接安装
+	\item[mdict] 用户贡献词典
+\end{description}
+\begin{block}{模块划分}
+	\begin{itemize}
+		\item 数据存储： SQL 数据库 或 词典数据格式
+		\item 用户界面： 桌面软件 或 web app
+		\item 查询 API： 连接数据存储与用户界面
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\subsection{项目变迁}
+\begin{frame}{项目变迁}
 \begin{itemize}
 	\item 2015 年创立，起初采用 windows 系统的 Qt4 框架
 	\item 2016 年提供 web 静态前端，用 jquery 开发
@@ -52,22 +69,9 @@
 	\item 2020 年，删除部分不兼容的功能，在 \url{http://leidenschaft.cn/django/static/index.html} 上发布德语词典版本
 \end{itemize}
 \end{frame}
-\begin{frame}{关于电子词典}
-\begin{description}
-	\item[wiktionary] 在线使用，用户贡献词条
-	\item[freedict]	词典数据在 Linux 发行版上可直接安装
-	\item[mdict] 用户贡献词典
-\end{description}
-\begin{block}{技术路线}
-\begin{itemize}
-	\item 数据存储： SQL 数据库 或 词典数据格式
-	\item 用户界面： 桌面软件 或 web app
-	\item 查询 API： 连接数据存储与用户界面
-\end{itemize}
-\end{block}
-\end{frame}
 \section{功能}
 \frame{\tableofcontents[currentsection]}
+\subsection{查词}
 \begin{frame}{查词}
 
 \begin{itemize}
@@ -86,7 +90,7 @@
 	%\includegraphics[height=3.5cm]{example_reset.png}
 \end{figure}
 \end{frame}
-
+\subsection{添加或修改现有词条}
 \begin{frame}{添加或修改现有词条}
 \begin{figure}
 	\includegraphics[height=6cm]{edit.png}
@@ -95,6 +99,7 @@
 \end{frame}
 \section{技术栈}
 \frame{\tableofcontents[currentsection]}
+\subsection{词典数据格式}
 \begin{frame}{词典数据格式}
 \begin{itemize}
 \item 采用 XML 的方式存储词条；
@@ -133,40 +138,66 @@
 	\caption{渲染动词变位表}
 \end{figure}
 \end{frame}
+\subsection{词典前端界面}
 \begin{frame}{词典前端界面}
 \begin{itemize}
-	\item 用 HTML4 进行布局
+	\item 用 HTML4 进行布局，如使用 \texttt{frameset} 标签对页面进行划分
 	\item 用 jquery 进行交互事件处理
-	\item 用 ajax 处理创建与编辑请求
+	\begin{figure}
+		\includegraphics[height=2cm]{jquery.png}
+	\end{figure}
+	\item 用 HTML form 处理创建与编辑 的 POST 请求，超链接和 ajax 处理 GET 请求
 \end{itemize}
 \begin{figure}
 	%\includegraphics[height=2.5cm]{accept_incoming.png}
 \end{figure}
 
 \end{frame}
+\subsection{词典后端 API}
+\begin{frame}{词典后端 API}
+\begin{itemize}
+	\item 仅提供一个接口 \texttt{create\_new\_word}
+	\item GET 请求： 返回创建新单词的 HTML 模板
+	\item POST 请求： 解析 HTML form 表单数据并更新相应的词条 XML 文件
+\end{itemize}
+\begin{figure}
+	\includegraphics[height=3cm]{api.png}
+	\caption{测试后端接口 API 的用例}
+\end{figure}
+\end{frame}
 \begin{frame}{其他语言支持}
 \begin{itemize}
 	\item 最初开发将一些德语特有的词法现象写到了代码里
-	\item 正在开发的 2.0 版本将对其他语言提供支持
-\end{itemize}
-\begin{itemize}
+%\end{itemize}
+%\vskip{1cm}
+%已有思路
+%\begin{itemize}
 	\item 每种语言有自己的 DTD 模板，比如日语单词的模板中需要有平假名注音的属性
-	\item 后端处理创建和更新请求时
+\begin{figure}
+	\includegraphics[height=1.5cm]{pronounciation.png}
+%	\caption{复现效果}
+\end{figure}
+	\item 正在开发的 2.0 版本将对其他语言提供支持
+	
+%	\item 后端处理创建和更新请求时，对每种语言特有的属性分别处理
 \end{itemize}
-\begin{figure}
-%\includegraphics[height=2.5cm]{recover_changes.png}
-\caption{复现效果}
-\end{figure}
-\begin{center}
-feature 分支仅贡献一处改动
-\end{center}
-\begin{figure}
+%\begin{center}
+%feature 分支仅贡献一处改动
+%\end{center}
+%\begin{figure}
 	%\includegraphics[height=2.5cm]{original.png}
-	\caption{原有效果}
-\end{figure}
+%	\caption{原有效果}
+%\end{figure}
 \end{frame}
 
 
+\begin{frame}
+\begin{block}{}
+	\centering
+	\Huge 谢谢大家
+
+\end{block}
+\end{frame}
 
 %\begin{frame}{GitHub Action}
 
