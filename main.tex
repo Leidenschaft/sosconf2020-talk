@@ -23,12 +23,12 @@
 \setlength{\parindent}{0.8cm}
 %\newcommand{\transpose}[1]{\ensuremath{#1^{\scriptscriptstyle T}}}
 \usetheme{Lab2C}
-\title{GitHub 高级用法介绍} % (optional, use only with long paper titles)
+\title{一款辅助外语学习的词典} % (optional, use only with long paper titles)
 \author[赵丰]
 {\quad {赵丰}\\ \and {zhaofeng-shu33}}
 \institute[清华大学] % (optional, but mostly needed)
 {\normalsize\quad
-  Lab2c 服务器使用培训
+  2020中文学生开源年会
 }
 \date{\the\year 年 \the\month 月 \the\day 日}
 %\AtBeginSubsection[]
@@ -43,106 +43,112 @@
 \frame{\titlepage}
 \frame{\tableofcontents}
 %\date{\hspace{1mm} \timemark}
-\section{GitHub 中的个人与组织}
-\begin{frame}{GitHub 个人主页}
+\section{背景}
+\begin{frame}{项目技术变迁}
 \begin{itemize}
-	\item \url{https://github.com/your_github_id}
-	\item 活跃程度
-     \begin{figure}
-	%\includegraphics[height=2.5cm]{activity.png}
-	\caption*{颜色越深，提交次数越多}
-	\end{figure}
-	\item 你关注的人与关注你的人
-	\begin{figure}
-	%\includegraphics[height=1cm]{ff.png}	
-	\end{figure}
+	\item 2015 年创立，起初采用 windows 系统的 Qt4 框架
+	\item 2016 年提供 web 静态前端，用 jquery 开发
+	\item 2017 年用 Django 开发后端服务，在 GitHub 创建 Leidenschaft 组织托管代码
+	\item 2020 年，删除部分不兼容的功能，在 \url{http://leidenschaft.cn/django/static/index.html} 上发布德语词典版本
 \end{itemize}
 \end{frame}
-\begin{frame}{GitHub 组织}
-     \begin{figure}
-	    \centering
-		%\includegraphics[height=2cm]{org.png}
-	\end{figure}
+\begin{frame}{关于电子词典}
+\begin{description}
+	\item[wiktionary] 在线使用，用户贡献词条
+	\item[freedict]	词典数据在 Linux 发行版上可直接安装
+	\item[mdict] 用户贡献词典
+\end{description}
+\begin{block}{技术路线}
 \begin{itemize}
-	\item 我们的组织 ID: \textbf{mace\_cream}
-	\item 置顶的仓库： \textbf{clusterhowto}
-	
-	\url{https://github.com/mace_cream/clusterhowto}
-	\item 接收邀请后，选择自己的可见性: \textbf{公开}或\textbf{仅内部成员可见}。
+	\item 数据存储： SQL 数据库 或 词典数据格式
+	\item 用户界面： 桌面软件 或 web app
+	\item 查询 API： 连接数据存储与用户界面
 \end{itemize}
+\end{block}
 \end{frame}
-\section{典型场景}
+\section{功能}
 \frame{\tableofcontents[currentsection]}
-\begin{frame}{如何倒退}
+\begin{frame}{查词}
+
 \begin{itemize}
-	\item 前提： 经常 commit
-	\item 倒退命令
-	\begin{enumerate}
-		\item 暂存当前修改: \texttt{git branch bad\_code}
-		\item 回退到想要的地方: \texttt{git reset --hard commit\_hash}
-	\end{enumerate}
-	\item 撤消倒退 \texttt{git reset --hard bad\_code}
+	\item 搜索框
+     \begin{figure}
+	  \centering
+	  \includegraphics[height=3cm]{search1.png}
+	\end{figure}	
+	\item 导航栏与词条界面
+     \begin{figure}
+	\centering
+	\includegraphics[height=3cm]{search2.png}
+	\end{figure}
 \end{itemize}
 \begin{figure}
 	%\includegraphics[height=3.5cm]{example_reset.png}
 \end{figure}
 \end{frame}
 
-\begin{frame}{如何使用 tag}
-\begin{itemize}
-	\item tags 对应 GitHub 上的 Releases
-	\item 使用场景： 软件新版本的发布
-	\item 简单 tag 命令: \texttt{git tag v1.0}
-	\item 将本地的 tags 推到 GitHub 上： \texttt{git push --tags origin}
-\end{itemize}
+\begin{frame}{添加或修改现有词条}
 \begin{figure}
-	%\includegraphics[height=4cm]{numpy_tags.png}
-	\caption{numpy 仓库中的 tags}
+	\includegraphics[height=6cm]{edit.png}
+	%\caption{numpy 仓库中的 tags}
 \end{figure}
 \end{frame}
-\section{实例分析}
+\section{技术栈}
 \frame{\tableofcontents[currentsection]}
-\begin{frame}[fragile]{merge 中正确解决 conflict}
+\begin{frame}{词典数据格式}
 \begin{itemize}
-\item 两个不同的 commit 对同一行代码改动产生了冲突
-     \begin{figure}
-	\centering
-	%\includegraphics[height=0.5cm]{conflict.png}
-	\end{figure}
-\item 冲突复现
+\item 采用 XML 的方式存储词条；
+\item 用 DTD 规定 XML 的结构；
+\item 用 XSLT 渲染 词条至浏览器；
 \end{itemize}
-\begin{lstlisting}[language=bash]
-git clone https://github.com/wuhan2020/\
-wuhan2020-frontend-react-app.git
-git checkout 801a4e3 -b feature
-git checkout 9d11a11 -b main
-git merge feature
-\end{lstlisting}
+\begin{figure}
+	\includegraphics[height=4cm]{xml.png}
+	\caption{Ausländer 词条释义项的存储}
+\end{figure}
 
 \end{frame}
-\begin{frame}{冲突现象}
-
-\begin{figure}
-	\centering
-	%\includegraphics[height=6cm]{phenomenon.png}
-\end{figure}
-\end{frame}
-\begin{frame}{冲突原因}
-\begin{figure}
-	\centering
-	%\includegraphics[height=7cm]{deps.png}
-\end{figure}
-\end{frame}
-\begin{frame}{如何解决}
+\begin{frame}[fragile]{DTD 介绍}
 \begin{itemize}
-	\item 使用 IDE 工具选择接受哪一部分的改动
+	\item 全称是 Document Type Definition
+	\item W3C 标准
+	\item 规定 XML 的格式
+\end{itemize}
+\begin{block}{德语中动词完成时态模板}
+\begin{lstlisting}[language=bash]
+<!ELEMENT Perfekt (ich,du,er_sie_es,wir,ihr,sie_Sie)>
+<!ELEMENT ich (#PCDATA)>
+<!ATTLIST Perfekt hilfsverb CDATA #REQUIRED>
+\end{lstlisting}
+\end{block}
+\end{frame}
+\begin{frame}{XSLT 介绍}
+\begin{itemize}
+	\item 全称是 eXtensible Stylesheet Language Transformations
+	\item W3C 标准
+	\item 规定 XML 数据应该怎样渲染成 HTML
+\end{itemize}
+\begin{figure}
+	\centering
+	\includegraphics[height=2.5cm]{conjugation.png}
+	\caption{渲染动词变位表}
+\end{figure}
+\end{frame}
+\begin{frame}{词典前端界面}
+\begin{itemize}
+	\item 用 HTML4 进行布局
+	\item 用 jquery 进行交互事件处理
+	\item 用 ajax 处理创建与编辑请求
 \end{itemize}
 \begin{figure}
 	%\includegraphics[height=2.5cm]{accept_incoming.png}
 \end{figure}
 
 \end{frame}
-\begin{frame}{最终效果}
+\begin{frame}{其他语言支持}
+\begin{itemize}
+	\item 最初开发将一些德语特有的词法现象写到了代码里
+	\item 
+\end{itemize}
 \begin{figure}
 %\includegraphics[height=2.5cm]{recover_changes.png}
 \caption{复现效果}
